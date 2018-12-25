@@ -14,6 +14,7 @@ import com.github.strikerx3.jxinput.enums.XInputButton;
 import com.github.strikerx3.jxinput.exceptions.XInputNotLoadedException;
 import com.github.strikerx3.jxinput.listener.SimpleXInputDeviceListener;
 import com.github.strikerx3.jxinput.listener.XInputDeviceListener;
+import com.mavrk.jxlazycontroller.controller.keyboard.KeyboardUI;
 import java.awt.AWTException;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -28,7 +29,10 @@ import java.util.logging.Logger;
 public class XinputController {
 
     static float INPUT_DEADZONE = 7849f;
-
+    static float MULTIPLIER = (float) 0.0001;
+    static float[] SPEED = {0.25f, 0.5f, 1f, 2f, 3f, 4f};
+    static int SPEED_INDEX = 3;
+    
     XInputDevice device;
     XInputDeviceListener deviceListener;
     XInputComponents components;
@@ -37,6 +41,7 @@ public class XinputController {
     XInputAxesDelta axesDelta;
     Point mouseLocation;
     Robot robot;
+    KeyboardUI keyboardUI;
 
     public XinputController() {
         try {
@@ -62,6 +67,20 @@ public class XinputController {
                         case "BACK":
                             mouseLocation = MouseInfo.getPointerInfo().getLocation();
                             break;
+
+                        case "LEFT_THUMBSTICK":
+                            if (keyboardUI == null) {
+                                keyboardUI = new KeyboardUI();
+                                keyboardUI.setAlwaysOnTop(true);
+                            }
+                            if (!keyboardUI.isVisible()) {
+                                keyboardUI.setVisible(true);
+                            } else {
+                                keyboardUI.toFront();
+                            }
+                            break;
+                            
+                        case "START":
                     }
                 }
             };
@@ -72,11 +91,14 @@ public class XinputController {
             robot = new Robot();
             mouseLocation = MouseInfo.getPointerInfo().getLocation();
             pollAndAct();
-        } catch (XInputNotLoadedException ex) {
+        }
+        catch (XInputNotLoadedException ex) {
             Logger.getLogger(XinputController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AWTException ex) {
+        }
+        catch (AWTException ex) {
             Logger.getLogger(XinputController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
+        }
+        catch (InterruptedException ex) {
             Logger.getLogger(XinputController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -84,48 +106,55 @@ public class XinputController {
     private void pollAndAct() throws InterruptedException {
         float LX, LY, RX, RY, LT, RT;
         float magnitude, normalizedLX, normalizedLY, normalizedMagnitude = 0f;
-        System.out.println(INPUT_DEADZONE);
         while (device.poll()) {
             LX = axes.lxRaw;
             LY = axes.lyRaw;
-            //System.out.println("LX " + LX + " LY " + LY);
             magnitude = (float) Math.sqrt(LX * LX + LY * LY);
-            
+
             if (magnitude > INPUT_DEADZONE) {
                 if (magnitude > 32767) {
                     magnitude = 32767;
                 }
                 magnitude -= INPUT_DEADZONE;
+                //[0..1] normalizedMagnitude 
                 normalizedMagnitude = magnitude / (32767 - INPUT_DEADZONE);
-                moveMouse(LX, LY, (float) 0.0001);
-            }
-            else //if the controller is in the deadzone zero out the magnitude
+                moveMouse(LX, LY);
+            } else //if the controller is in the deadzone zero out the magnitude
             {
                 magnitude = 0f;
                 normalizedMagnitude = 0f;
             }
-            
+
         }
 
     }
-    
-    private void moveMouse(float LX, float LY, float mult) throws InterruptedException{
-        mouseLocation.x += (int) (LX * mult);
-        mouseLocation.y -= (int) (LY * mult);
+
+    private void moveMouse(float LX, float LY) throws InterruptedException {
+        mouseLocation.x += (int) (LX * MULTIPLIER * SPEED[SPEED_INDEX]);
+        mouseLocation.y -= (int) (LY * MULTIPLIER * SPEED[SPEED_INDEX]);
         robot.mouseMove(mouseLocation.x, mouseLocation.y);
         System.out.println(mouseLocation.x + "," + mouseLocation.y);
         normalizeMouseLocation();
         Thread.sleep(5);
     }
-    
-    private void normalizeMouseLocation(){
-        if(mouseLocation.x < 0) mouseLocation.x = 0;
-        else if(mouseLocation.x > 1920) mouseLocation.x = 1920;
-        
-        if(mouseLocation.y < 0) mouseLocation.y = 0;
-        else if(mouseLocation.y > 1080) mouseLocation.y = 1080;
+
+    private void normalizeMouseLocation() {
+        if (mouseLocation.x < 0) {
+            mouseLocation.x = 0;
+        } else if (mouseLocation.x > 1920) {
+            mouseLocation.x = 1920;
+        }
+
+        if (mouseLocation.y < 0) {
+            mouseLocation.y = 0;
+        } else if (mouseLocation.y > 1080) {
+            mouseLocation.y = 1080;
+        }
     }
 
+    private void cycleThroughSpeedLevels(){
+        SPEED_INDEX = (SPEED_INDEX + 1) % 6;
+    }
     public static void main(String[] args) {
         XinputController xinputController = new XinputController();
     }
