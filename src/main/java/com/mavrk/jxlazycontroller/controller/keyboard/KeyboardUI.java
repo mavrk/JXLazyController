@@ -529,7 +529,6 @@ public class KeyboardUI extends javax.swing.JFrame {
         keypgup = new javax.swing.JLabel();
         numericpadCombobox = new javax.swing.JCheckBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("On-Screen Keyboard");
         setAlwaysOnTop(true);
         setAutoRequestFocus(false);
