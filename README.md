@@ -6,6 +6,12 @@
 
 Control Mouse and Keyboard using XInput Controllers (Xbox 360, Xbox One, Logitech F710, etc)
 
+## Build
+Maven is used as the build system. 
+
+    mvn clean build
+
+To build the jar file. You can keep this file in your startup folder.
 
 ## Key Mappings
 | Controller |  Function|
