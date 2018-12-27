@@ -21,7 +21,7 @@
         <dependency>
             <groupId>com.github.strikerx3</groupId>
             <artifactId>jxinput</artifactId>
-            <version>1.0</version>    <!-- Use any released version, commit hash or branch-SNAPSHOT here -->
+            <version>master-SNAPSHOT</version>    <!-- Use any released version, commit hash or branch-SNAPSHOT here -->
             <type>jar</type>
         </dependency>
     </dependencies>
@@ -36,4 +36,32 @@
             </plugin>
         </plugins>
     </reporting>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>
+                                com.mavrk.jxlazycontroller.controller.XinputController
+                            </mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
