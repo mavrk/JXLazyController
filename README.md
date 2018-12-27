@@ -9,7 +9,7 @@ Control Mouse and Keyboard using XInput Controllers (Xbox 360, Xbox One, Logitec
 ## Build
 Maven is used as the build system. 
 
-    mvn clean build
+    mvn clean install
 
 To build the jar file. You can keep this file in your startup folder.
 
