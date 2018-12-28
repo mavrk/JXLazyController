@@ -54,9 +54,10 @@ Right Trigger | Backspace |
 
 ## To Do
 
-1. Add horizontal scroll
-2. Add continuous arrow key function on continuous press
-3. Add notifications for important events 
-4. Add features for presentation controls like pointers, etc
+1. Add media and browser controls
+2. Add horizontal scroll
+3. Add continuous arrow key function on continuous press
+4. Add notifications for important events 
+5. Add features for presentation controls like pointers, etc
 
 
