@@ -39,16 +39,18 @@ Right Trigger | Backspace |
 |--|--|
 | Back + Start | Start / Stop Listening from Controller  
  Left Bumper + Right Bumper | Cycle through various speed levels 
- Left Trigger + D_UP | Increase Volume 
- Left Trigger + D_DOWN | Decrease Volume 
- Left Trigger + D_RIGHT | Next Media Key
- Left Trigger + D_LEFT | Previous Media Key
- Left Trigger + B | Play / Pause 
- Right Trigger + D_UP | Browser zoom-in 
- Right Trigger + D_DOWN | Browser zoom-out 
- Right Trigger + D_LEFT | Browser previous tab 
- Right Trigger + D_RIGHT | Browser next tab 
- Right Trigger + B | Browser Refresh (F5) |
+ Right Trigger + D_UP | Increase Volume 
+ Right Trigger + D_DOWN | Decrease Volume 
+ Right Trigger + D_RIGHT | Next Media Key
+ Right Trigger + D_LEFT | Previous Media Key
+ Right Trigger + B | Play / Pause Key
+ Right Bumper + Right_Axes_Up | Browser zoom-in 
+ Right Bumper + Right_Axes_Down | Browser zoom-out
+ Left Bumper + D_LEFT | Browser Back
+ Left Bumper + D_RIGHT | Browser Forward
+ Left Trigger + D_LEFT | Browser previous tab 
+ Left Trigger + D_RIGHT | Browser next tab 
+ Left Trigger + B | Browser Refresh (F5) |
 
 
 
