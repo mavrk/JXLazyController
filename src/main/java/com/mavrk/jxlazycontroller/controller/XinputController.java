@@ -21,7 +21,6 @@ import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,7 +33,7 @@ public class XinputController {
     static float INPUT_DEADZONE = 7849f;
     static float MULTIPLIER = (float) 0.0001;
     static float[] SPEED = {3f, 2f, 1f, 0.8f, 0.4f};
-    static int SPEED_INDEX = 2;
+    static int SPEED_INDEX = 1;
 
     static boolean IS_LISTENING = false;
     static boolean IS_START_PRESSED = false;
@@ -153,26 +152,62 @@ public class XinputController {
                             case "X":
                                 robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
                                 break;
-                                
+
                             case "B":
-                                robot.keyPress(KeyEvent.VK_ENTER);
+                                if (IS_LT_PRESSED) {
+                                    robot.keyPress(KeyEvent.VK_F5);
+                                    robot.keyRelease(KeyEvent.VK_F5);
+                                } else if (IS_RT_PRESSED) {
+                                    //Play or Pause Key
+                                } else {
+                                    robot.keyPress(KeyEvent.VK_ENTER);
+                                }
                                 break;
 
                             case "DPAD_LEFT":
-                                robot.keyPress(KeyEvent.VK_LEFT);
-                                robot.keyRelease(KeyEvent.VK_LEFT);
+                                if (IS_LT_PRESSED) {
+                                    robot.keyPress(KeyEvent.VK_CONTROL);
+                                    robot.keyPress(KeyEvent.VK_PAGE_DOWN);
+                                    robot.keyRelease(KeyEvent.VK_CONTROL);
+                                    robot.keyRelease(KeyEvent.VK_PAGE_DOWN);
+                                } else if (IS_LT_PRESSED) {
+//                                    robot.keyPress(177);
+//                                    robot.keyRelease(177);
+                                } else {
+                                    robot.keyPress(KeyEvent.VK_LEFT);
+                                }
                                 break;
 
                             case "DPAD_RIGHT":
-                                robot.keyPress(KeyEvent.VK_RIGHT);
+                                if (IS_LT_PRESSED) {
+                                    robot.keyPress(KeyEvent.VK_CONTROL);
+                                    robot.keyPress(KeyEvent.VK_PAGE_UP);
+                                    robot.keyRelease(KeyEvent.VK_CONTROL);
+                                    robot.keyRelease(KeyEvent.VK_PAGE_UP);
+                                } else if (IS_RT_PRESSED) {
+//                                    robot.keyPress(176);
+//                                    robot.keyRelease(176);
+                                } else {
+                                    robot.keyPress(KeyEvent.VK_RIGHT);
+                                }
                                 break;
 
                             case "DPAD_UP":
-                                robot.keyPress(KeyEvent.VK_UP);
+                                if (IS_RT_PRESSED) {
+//                                    robot.keyPress(175);
+//                                    robot.keyRelease(175);
+                                } else {
+                                    robot.keyPress(KeyEvent.VK_UP);
+                                }
                                 break;
 
                             case "DPAD_DOWN":
-                                robot.keyPress(KeyEvent.VK_DOWN);
+                                if (IS_RT_PRESSED) {
+//                                    robot.keyPress(174);
+//                                    robot.keyRelease(174);
+                                } else {
+                                    robot.keyPress(KeyEvent.VK_DOWN);
+                                }
                                 break;
 
                             case "LEFT_THUMBSTICK":
@@ -293,13 +328,29 @@ public class XinputController {
                     }
                     magnitudeR -= 32767;
                     int scrollAmount = (int) (RY * -0.0001);
-                    System.out.println("SA " + scrollAmount);
                     robot.mouseWheel(scrollAmount);
                     Thread.sleep(50);
                 } else {
                     magnitudeR = 0f;
                 }
 
+                //RIGHT TRIGGER
+                LT = axes.ltRaw;
+                RT = axes.rtRaw;
+                IS_LT_PRESSED = false;
+                IS_RT_PRESSED = false;
+                if (LT > 10) {
+                    robot.keyPress(KeyEvent.VK_SPACE);
+                    robot.keyRelease(KeyEvent.VK_SPACE);
+                    Thread.sleep(50);
+                    IS_LT_PRESSED = true;
+                }
+                if (RT > 10) {
+                    robot.keyPress(KeyEvent.VK_BACK_SPACE);
+                    robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+                    Thread.sleep(50);
+                    IS_RT_PRESSED = true;
+                }
             } else {
                 //WAIT till listening enabled
             }
@@ -312,7 +363,6 @@ public class XinputController {
         mouseLocation.x += (int) (LX * MULTIPLIER * SPEED[SPEED_INDEX]);
         mouseLocation.y -= (int) (LY * MULTIPLIER * SPEED[SPEED_INDEX]);
         robot.mouseMove(mouseLocation.x, mouseLocation.y);
-        //System.out.println(mouseLocation.x + "," + mouseLocation.y);
         normalizeMouseLocation();
         Thread.sleep(5);
     }
