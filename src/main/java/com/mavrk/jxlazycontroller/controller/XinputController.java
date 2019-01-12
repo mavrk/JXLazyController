@@ -73,11 +73,7 @@ public class XinputController {
 
                 @Override
                 public void buttonChanged(final XInputButton button, final boolean pressed) {
-                    // The given button was just pressed (if pressed == true) or released (pressed == false)
-
-                    Logger.getLogger(XinputController.class.getName()).log(Level.INFO, button.name() + (pressed ? " pressed" : " released"));
-
-                    //If NOT listening state 
+                    // The given button was just pressed (if pressed == true) or released (pressed == false) 
                     if (pressed) {
                         switch (button.name()) {
                             case "BACK":
@@ -167,9 +163,9 @@ public class XinputController {
                             case "DPAD_LEFT":
                                 if (IS_LT_PRESSED) {
                                     robot.keyPress(KeyEvent.VK_CONTROL);
-                                    robot.keyPress(KeyEvent.VK_PAGE_DOWN);
+                                    robot.keyPress(KeyEvent.VK_PAGE_UP);
                                     robot.keyRelease(KeyEvent.VK_CONTROL);
-                                    robot.keyRelease(KeyEvent.VK_PAGE_DOWN);
+                                    robot.keyRelease(KeyEvent.VK_PAGE_UP);
                                 } else if (IS_LT_PRESSED) {
 //                                    robot.keyPress(177);
 //                                    robot.keyRelease(177);
@@ -181,9 +177,9 @@ public class XinputController {
                             case "DPAD_RIGHT":
                                 if (IS_LT_PRESSED) {
                                     robot.keyPress(KeyEvent.VK_CONTROL);
-                                    robot.keyPress(KeyEvent.VK_PAGE_UP);
+                                    robot.keyPress(KeyEvent.VK_PAGE_DOWN);
                                     robot.keyRelease(KeyEvent.VK_CONTROL);
-                                    robot.keyRelease(KeyEvent.VK_PAGE_UP);
+                                    robot.keyRelease(KeyEvent.VK_PAGE_DOWN);
                                 } else if (IS_RT_PRESSED) {
 //                                    robot.keyPress(176);
 //                                    robot.keyRelease(176);
@@ -342,13 +338,13 @@ public class XinputController {
                 if (LT > 10) {
                     robot.keyPress(KeyEvent.VK_SPACE);
                     robot.keyRelease(KeyEvent.VK_SPACE);
-                    Thread.sleep(50);
+                    Thread.sleep(200);
                     IS_LT_PRESSED = true;
                 }
                 if (RT > 10) {
                     robot.keyPress(KeyEvent.VK_BACK_SPACE);
                     robot.keyRelease(KeyEvent.VK_BACK_SPACE);
-                    Thread.sleep(50);
+                    Thread.sleep(200);
                     IS_RT_PRESSED = true;
                 }
             } else {
