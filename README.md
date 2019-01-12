@@ -44,10 +44,10 @@ Right Trigger | Backspace |
  Right Trigger + D_RIGHT | Next Media Key
  Right Trigger + D_LEFT | Previous Media Key
  Right Trigger + B | Play / Pause Key
- Right Bumper + Right_Axes_Up | Browser zoom-in 
- Right Bumper + Right_Axes_Down | Browser zoom-out
- Left Bumper + D_LEFT | Browser Back
- Left Bumper + D_RIGHT | Browser Forward
+ Left Bumper + Right_Axes_Up | Browser zoom-in 
+ Left Bumper + Right_Axes_Down | Browser zoom-out
+ Right Bumper + D_LEFT | Browser Back
+ Right Bumper + D_RIGHT | Browser Forward
  Left Trigger + D_LEFT | Browser previous tab 
  Left Trigger + D_RIGHT | Browser next tab 
  Left Trigger + B | Browser Refresh (F5) |
